@@ -1,53 +1,26 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const crmController_1 = require("../controllers/crmController");
 // ENDPOINTS:
 // '/' GET
 // '/contact' GET, POST
 // '/contact/:contactId' GET, PUT, DELETE
 class Routes {
+    constructor() {
+        this.contactController = new crmController_1.ContactController(); //what would be the consistent situation to start using this
+    }
     routes(app) {
-        app.route('/')
-            .getg((req, res) => {
-            res.status(200).send({
-                message: 'GET request successfulll!!!!'
-            });
-        });
         // note how this is a chained call to GET, POST
         // to the same endpoint '/post'
         // Contact
         app.route('/contact')
-            .get((req, res) => {
-            // Get all contacts
-            res.status(200).send({
-                message: 'GET all contacts successfulll!!!!'
-            });
-        })
-            .post((req, res) => {
-            // Create new contact
-            res.status(200).send({
-                message: 'Create new contact successfulll!!!!'
-            });
-        });
+            .get(this.contactController.getContacts)
+            .post(this.contactController.addNewContact);
         // Contact detail
         app.route('/contact/:contactId')
-            .get((req, res) => {
-            // Get a single contact detail
-            res.status(200).send({
-                message: 'GET specific contact detail successfulll!!!!'
-            });
-        })
-            .put((req, res) => {
-            // Update a contact
-            res.status(200).send({
-                message: 'PUT update specific contact detail successfulll!!!!'
-            });
-        })
-            .delete((req, res) => {
-            // Delete a contact
-            res.status(200).send({
-                message: 'DELETE specific contact detail successfulll!!!!'
-            });
-        });
+            .get(this.contactController.getContactWithID)
+            .put(this.contactController.updateContact)
+            .delete(this.contactController.deleteContact);
     }
 }
 exports.Routes = Routes;

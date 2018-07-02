@@ -1,57 +1,25 @@
 import {Request, Response} from "express";
+import {ContactController} from "../controllers/crmController";
 
 // ENDPOINTS:
 // '/' GET
 // '/contact' GET, POST
 // '/contact/:contactId' GET, PUT, DELETE
 export class Routes {
-    public routes(app): void {
-        app.route('/')
-            .getg((req: Request, res: Response) => {
-                res.status(200).send({
-                    message: 'GET request successfulll!!!!'
-                })
-            });
+    public contactController: ContactController = new ContactController(); //what would be the consistent situation to start using this
 
+    public routes(app): void {
         // note how this is a chained call to GET, POST
         // to the same endpoint '/post'
         // Contact
         app.route('/contact')
-            // GET endpoint
-            .get((req: Request, res: Response) => {
-                // Get all contacts
-                res.status(200).send({
-                    message: 'GET all contacts successfulll!!!!'
-                })
-            })
-            // POST endpoint
-            .post((req: Request, res: Response) => {
-                // Create new contact
-                res.status(200).send({
-                    message: 'Create new contact successfulll!!!!'
-                })
-            });
+            .get(this.contactController.getContacts)
+            .post(this.contactController.addNewContact);
 
         // Contact detail
         app.route('/contact/:contactId')
-            // get specific contact
-            .get((req: Request, res: Response) => {
-                // Get a single contact detail
-                res.status(200).send({
-                    message: 'GET specific contact detail successfulll!!!!'
-                })
-            })
-            .put((req: Request, res: Response) => {
-                // Update a contact
-                res.status(200).send({
-                    message: 'PUT update specific contact detail successfulll!!!!'
-                })
-            })
-            .delete((req: Request, res: Response) => {
-                // Delete a contact
-                res.status(200).send({
-                    message: 'DELETE specific contact detail successfulll!!!!'
-                })
-            });
+            .get(this.contactController.getContactWithID)
+            .put(this.contactController.updateContact)
+            .delete(this.contactController.deleteContact);
     }
 }
