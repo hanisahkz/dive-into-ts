@@ -1,0 +1,20 @@
+//The idea is to put all the TypeScript files in the lib folder for development purpose,
+//then for the production, we will save all the Javascript files in the dist folder.
+//And of course, we will take advantage of the ES2015 in the project.
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "pretty": true,
+    "sourceMap": true,
+    "target": "es6",
+    "outDir": "./dist",
+    "baseUrl": "./lib"
+  },
+  "include": [
+    "lib/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
